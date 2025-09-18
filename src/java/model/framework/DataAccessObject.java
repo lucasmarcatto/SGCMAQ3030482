@@ -11,19 +11,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringJoiner;
 
+// Essa classe é abstrata porque serve só como base para outros DAOs.
+// Não é usada diretamente, mas sim herdada pelas classes específicas.
+
 public abstract class DataAccessObject {
     
-    private String tableEntity;
-    private boolean novelEntity;
-    private boolean changedEntity;
-    private HashMap<String, Object> dirtyFields;
+    // Atributos de conexão
+    private String tableEntity; //guarda o nome da tabela do banco
+    private boolean novelEntity; //true se o objeto ainda não existe no banco (novo)
+    private boolean changedEntity; //true se o objeto sofreu alterações
+    private HashMap<String, Object> dirtyFields; //armazena os campos que mudaram e precisam ser persistidos
     
-    public DataAccessObject(String tableEntity) {
+    public DataAccessObject(String tableEntity) { //construtor recebe o nome da tabela e já inicializa os controles
         setTableEntity(tableEntity);
         dirtyFields = new HashMap<>();
         
-        setNovelEntity(true);
-        setChangedEntity(false);        
+        setNovelEntity(true); //quando cria é considerado "novo"
+        setChangedEntity(false); //ainda não tem alterações    
     }
     
     //get----------
@@ -40,8 +44,8 @@ public abstract class DataAccessObject {
     }
     
     //set----------
-    public void setTableEntity(String tableEntity) {
-        if( tableEntity != null && 
+    public void setTableEntity(String tableEntity) { 
+        if( tableEntity != null && // garante que o nome da tabela não vai ser vazio ou nulo
                 !tableEntity.isEmpty() && 
                 !tableEntity.isBlank() ) {
             this.tableEntity = tableEntity;
@@ -56,18 +60,18 @@ public abstract class DataAccessObject {
 
     protected void setChangedEntity(boolean changedEntity) {
         this.changedEntity = changedEntity;
-        if( this.changedEntity == false ) {
+        if( this.changedEntity == false ) { //se não tem alterações, limpa o map de dirtyFields
             dirtyFields.clear();
         }
     }
     
     //Unity Of Work
-    protected void addChange(String field, Object value) {
+    protected void addChange(String field, Object value) { //marca um campo como alterado 
         dirtyFields.put(field, value);
         setChangedEntity(true);
     }
     
-    private void insert() throws SQLException {
+    private void insert() throws SQLException { //faz um INSERT com os campos que estão em dirtyFields
         String dml = "INSERT INTO " + getTableEntity();
         
         StringJoiner fields = new StringJoiner(", ");
@@ -100,7 +104,7 @@ public abstract class DataAccessObject {
         DataBaseConnections.getInstace().closeConnection(con);
     }
     
-    private void update() throws SQLException {
+    private void update() throws SQLException { //faz um UPDATE usando dirtyFields
         
         String dml = "UPDATE " + getTableEntity() + " SET ";
         
@@ -131,7 +135,7 @@ public abstract class DataAccessObject {
         DataBaseConnections.getInstace().closeConnection(con);
     }
     
-    public void save() throws SQLException {
+    public void save() throws SQLException { //decide se vai dar insert ou update dependendo do estado do objeto
         if( isChangedEntity() ) {
             if( isNovelEntity() ) {
                 insert();
@@ -143,7 +147,7 @@ public abstract class DataAccessObject {
         }
     }
     
-    public void delete() throws SQLException {
+    public void delete() throws SQLException { //remove o registro do banco
         String dml = "DELETE FROM " + getTableEntity() + " WHERE " + getWhereClauseForOneEntity();
         
         if( AppConfig.getInstance().isVerbose() ) System.out.println( dml );
@@ -157,7 +161,7 @@ public abstract class DataAccessObject {
         DataBaseConnections.getInstace().closeConnection(con);
     }
     
-    public boolean load() throws SQLException {
+    public boolean load() throws SQLException { //carrega um registro do banco e preenche o objeto
         boolean resultado;
         
         String dql = "SELECT * FROM " + getTableEntity() + " WHERE " + getWhereClauseForOneEntity();
@@ -178,13 +182,14 @@ public abstract class DataAccessObject {
                 data.add( rs.getObject(i) );
             }
             
-            fill(data);
+            fill(data); //método abstrato que a classe filha implementa
             setNovelEntity(false);
         }
         
         return resultado;
     }
     
+    //busca todos os registros da tabela e retorna em forma de lista
     public <T extends DataAccessObject> ArrayList<T> getAllTableEntities() throws SQLException {
         
         ArrayList<T> result = new ArrayList<>();
@@ -221,4 +226,10 @@ public abstract class DataAccessObject {
     protected abstract String getWhereClauseForOneEntity();
     protected abstract DataAccessObject fill(ArrayList<Object> data);
     protected abstract <T extends DataAccessObject> T copy();
+    
+    // ----------MÉTODOS ABSTRATOS----------
+    // cada classe concreta precisa dizer:
+    // - como identificar um único registro (WHERE)
+    // - como preencher os atributos a partir de uma lista de dados
+    // - como copiar o objeto 
 }
