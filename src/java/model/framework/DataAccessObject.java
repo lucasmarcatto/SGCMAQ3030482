@@ -1,6 +1,7 @@
 package model.framework;
 
 import controller.AppConfig;
+import model.Usuario;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -232,4 +233,6 @@ public abstract class DataAccessObject {
     // - como identificar um único registro (WHERE)
     // - como preencher os atributos a partir de uma lista de dados
     // - como copiar o objeto 
+    
+    
 }
