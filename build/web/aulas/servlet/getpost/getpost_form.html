@@ -7,12 +7,13 @@
     </head>
     <body>
         <div>
-            <form action="http://localhost:8080/SGCMAQ3030482/aulas/servlet/getpost" method="get">
+            <!--<form action="http://localhost:8080/SGCMAQ3030482/aulas/servlet/getpost" method="get">-->
+            <form action="http://localhost:8080/SGCMAQ3030482/aulas/servlet/getpost" method="post">
                 <h2>Formulário</h2>
 
                 <p>
                     <label for="campoA">Campo A:</label>
-                    <input type="text" id="campoA" name="campoA"> <br><br> 
+                    <input type="text" id="campoA" name="campoA" pattern="\d+" title="Apenas títulos" required> <br><br> 
 
                     <input type="checkbox" id="opcaoA" name="opcaoA" value="opcaoA"/>
                     <label for="opcaoA">Opçao A</label> <br><br> 

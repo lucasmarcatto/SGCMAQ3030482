@@ -24,18 +24,19 @@ public class __Exemplo {
 //        
 //        tp.save(); //update
 
-        tp.setId(51);
-        boolean status = tp.load();
-        System.out.println(status);
-        System.out.println(tp);
-        
-        tp.setNome("tipo usuario 51");
-        tp.save(); //update
-        System.out.println(tp);
-        
-        tp.delete();
+//        tp.setId(51);
+//        boolean status = tp.load();
+//        System.out.println(status);
+//        System.out.println(tp);
+//        
+//        tp.setNome("tipo usuario 51");
+//        tp.save(); //update
+//        System.out.println(tp);
+//        
+//        tp.delete();
 //        
         ArrayList<TipoUsuario> lst = new TipoUsuario().getAllTableEntities();
+        System.out.println( lst );
             
     }
 }
