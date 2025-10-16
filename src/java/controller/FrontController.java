@@ -2,9 +2,11 @@ package controller;
 
 import java.io.IOException;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import logtrack.ExceptionLogTrack;
 import model.TipoUsuario;
 import model.Usuario;
@@ -26,8 +28,10 @@ public class FrontController extends HttpServlet {
 
                 case "tipousuario": doGetTipoUsuario(request, response); break;
 
-                case "usuarios": doGetUsuarios(request, response); break;
-
+                case "usuarios": doGetUsuarios(request, response); break;       
+                
+                case "logout": doGetLogout(request, response); break; 
+                                
                 default: doDefault(request, response);
 
             }
@@ -54,6 +58,8 @@ public class FrontController extends HttpServlet {
                 case "tipousuario": doPostTipoUsuario(request, response); break;
 
                 case "usuarios": doPostUsuarios(request, response); break;
+                
+                case "login": doPostLogin(request, response); break;
 
                 default: doDefault(request, response);
 
@@ -103,8 +109,6 @@ public class FrontController extends HttpServlet {
         response.sendRedirect( request.getContextPath() + "/home/app/usuarios.jsp");
         
     }
-    
-    
     
     private void doPostTipoUsuario(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
@@ -179,12 +183,78 @@ public class FrontController extends HttpServlet {
     }  
         
     
+    private void doPostLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {  
+
+        int id = Integer.valueOf( request.getParameter("id") );
+        String senha = request.getParameter("senha");
         
+        Usuario usuarioTry = new Usuario();
+        usuarioTry.setId(id);
+        usuarioTry.setSenha(senha);
+               
+        Usuario usuario = new Usuario();
+        usuario.setId(id);
+        boolean status = usuario.load();
+
+        if( ( status == true ) && usuario.getSenha().equals( usuarioTry.getSenha() ) ) {
+            
+            //true: crie um sessão se não houver alguma. false do contrário
+            //informações armazenadas no sevidor
+            HttpSession sessao = request.getSession(false);
+            if( sessao != null ) {
+                //se a sessão já existir
+                sessao.invalidate();
+            }
+            
+            sessao = request.getSession(true);
+            
+            sessao.setAttribute("usuario", "(" + usuario.getNome() + ", " + usuario.getId() + ")");
+            
+            TipoUsuario tipoUsuario = new TipoUsuario();
+            tipoUsuario.setId( usuario.getId() );
+            tipoUsuario.load();
+            
+            sessao.setAttribute("tipo_usuario", tipoUsuario);
+            
+            sessao.setMaxInactiveInterval( 60 * 60 ); //valor em segundos
+            
+            Cookie cookie = new Cookie( "id", String.valueOf(id) );
+            
+            //criado e armazenado no cliente
+            response.addCookie(cookie);
+            cookie.setMaxAge( 60 * 10 ); // valor em segundos
+            response.addCookie(cookie);
+            
+            response.sendRedirect("home/app/menu.jsp");
+            
+        } else {
+            
+            request.setAttribute("msg", "Id e/ou senha incorreto(s)");
+            request.getRequestDispatcher( "home/login.jsp" ).forward(request, response);
+        }
+        
+        
+    }  
+        
+    private void doGetLogout(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
+        HttpSession sessao = request.getSession(false);
+        if( sessao != null ) {
+//            sessao.removeAttribute("usuario");
+//            sessao.removeAttribute("tipo_usuario");
+
+            sessao.invalidate();
+        }
+        response.sendRedirect("home/login.jsp");
+    }
+       
     private void doDefault(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         response.sendRedirect( "home/login.jsp");
         
     }
+
+    
     
 
     
