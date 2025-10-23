@@ -202,6 +202,10 @@ public class FrontController extends HttpServlet {
             //informações armazenadas no sevidor
             HttpSession sessao = request.getSession(false);
             if( sessao != null ) {
+                //faz o processo de remoção de usuario para garantir que será criado um novo do jeito correto
+                sessao.removeAttribute("usuario");
+                sessao.removeAttribute("tipo_usuario");
+                
                 //se a sessão já existir
                 sessao.invalidate();
             }
@@ -218,17 +222,17 @@ public class FrontController extends HttpServlet {
             
             sessao.setMaxInactiveInterval( 60 * 60 ); //valor em segundos
             
-            Cookie cookie = new Cookie( "id", String.valueOf(id) );
-            
             //criado e armazenado no cliente
-            response.addCookie(cookie);
+            Cookie cookie = new Cookie( "id", String.valueOf(id) );
             cookie.setMaxAge( 60 * 10 ); // valor em segundos
             response.addCookie(cookie);
             
-            response.sendRedirect("home/app/menu.jsp");
+            //faz com que o cliente acesse o recurso
+            response.sendRedirect( request.getContextPath() + "/home/app/menu.jsp");
             
         } else {
             
+            //faz com que o servidor acesso o recurso
             request.setAttribute("msg", "Id e/ou senha incorreto(s)");
             request.getRequestDispatcher( "home/login.jsp" ).forward(request, response);
         }
@@ -240,17 +244,18 @@ public class FrontController extends HttpServlet {
         
         HttpSession sessao = request.getSession(false);
         if( sessao != null ) {
-//            sessao.removeAttribute("usuario");
-//            sessao.removeAttribute("tipo_usuario");
+            sessao.removeAttribute("usuario");
+            sessao.removeAttribute("tipo_usuario");
 
             sessao.invalidate();
         }
-        response.sendRedirect("home/login.jsp");
+        
+        response.sendRedirect( request.getContextPath() + "/home/login.jsp");
     }
        
     private void doDefault(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
-        response.sendRedirect( "home/login.jsp");
+        response.sendRedirect( request.getContextPath() + "/home/login.jsp");
         
     }
 

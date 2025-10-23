@@ -95,10 +95,10 @@ public class Usuario extends DataAccessObject {
     protected DataAccessObject fill(ArrayList data) {
 // preenche os atributos na mesma ordem das colunas da tabela
         id = (int) data.get(0);
-        nome = (String) data.get(1);        
-        senha = (String) data.get(2);
-        tipoUsuarioId = (int) data.get(3);
-        cpf = (String) data.get(4);
+        nome = (String) data.get(1);  
+        cpf = (String) data.get(2);
+        senha = (String) data.get(3);
+        tipoUsuarioId = (int) data.get(4);
         return this;
     }
 

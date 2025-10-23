@@ -13,7 +13,7 @@
         
         <h1>Usuário</h1>
         
-        <table>
+        <table border="1"> 
             
             <tr>
                 <th>ID</th>

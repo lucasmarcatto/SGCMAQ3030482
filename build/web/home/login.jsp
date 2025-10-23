@@ -17,16 +17,20 @@
         
         <%
             HttpSession sessao = request.getSession(false);
-            if( sessao != null ) {
-                response.sendRedirect("home/app/menu.jsp");
+            if( (sessao != null) && (sessao.getAttribute("usuario") != null) && (sessao.getAttribute("tipo_usuario") != null)) {
+                response.sendRedirect( request.getContextPath() +"/home/app/menu.jsp");
             }
         %>
         
         <%
             int id = -1;
-            for( Cookie c : request.getCookies() ){
-                if( c.getName().equals("id") ){
-                    id = Integer.parseInt( c.getValue() );
+            Cookie[] cookies = request.getCookies();
+            
+            if( cookies != null ){
+                for( Cookie c : request.getCookies() ){
+                    if( c.getName().equals("id") ){
+                        id = Integer.parseInt( c.getValue() );
+                    }
                 }
             }
         %>
