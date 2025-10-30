@@ -8,6 +8,9 @@
         <title>Tipo Usuario</title>
     </head>
     <body>
+        
+        <%@include file="/home/app/modulos.jsp" %>
+        
         <%
             ArrayList<TipoUsuario> dados = new TipoUsuario().getAllTableEntities();
         %>

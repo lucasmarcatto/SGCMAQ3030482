@@ -7,6 +7,9 @@
         <title>Tipo Usuário</title>
     </head>
     <body>
+        
+        <%@include file="/home/app/modulos.jsp" %>
+        
         <%
             TipoUsuario tp = null;
             String action = request.getParameter("action");
@@ -21,7 +24,7 @@
                 }
             }
         %>
-        <h1>Tipo Usuário</h1>
+        <h1>Criar Tipo Usuário</h1>
         
         <form action="<%= request.getContextPath()%>/home?action=<%= action %>&task=tipousuario" method="post">
             

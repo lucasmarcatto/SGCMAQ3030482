@@ -72,7 +72,6 @@ public class FrontController extends HttpServlet {
     }
     
     
-    
     private void doGetTipoUsuario(HttpServletRequest request, HttpServletResponse response) throws Exception {
         
         String action = request.getParameter("action");
@@ -163,6 +162,8 @@ public class FrontController extends HttpServlet {
         
         String senha = request.getParameter("senha");
         
+        String endereco = request.getParameter("endereco");
+        
         int tipoUsuarioId = Integer.valueOf( request.getParameter("tipo_usuario_id") );
         
         Usuario us = new Usuario();
@@ -174,6 +175,7 @@ public class FrontController extends HttpServlet {
         us.setNome(nome);
         us.setCpf(cpf);
         us.setSenha(senha);
+        us.setEndereco(endereco);
         us.setTipoUsuarioId(tipoUsuarioId);
 
         us.save();
@@ -215,7 +217,7 @@ public class FrontController extends HttpServlet {
             sessao.setAttribute("usuario", "(" + usuario.getNome() + ", " + usuario.getId() + ")");
             
             TipoUsuario tipoUsuario = new TipoUsuario();
-            tipoUsuario.setId( usuario.getId() );
+            tipoUsuario.setId( usuario.getTipoUsuarioId() );
             tipoUsuario.load();
             
             sessao.setAttribute("tipo_usuario", tipoUsuario);

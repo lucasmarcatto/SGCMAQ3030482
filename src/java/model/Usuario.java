@@ -14,6 +14,7 @@ public class Usuario extends DataAccessObject {
     private String nome;
     private String cpf;
     private String senha;
+    private String endereco;
 // chave estrangeira para a tabela tipo_usuario
     private int tipoUsuarioId;
 
@@ -37,6 +38,10 @@ public class Usuario extends DataAccessObject {
 
     public String getSenha() {
         return senha;
+    }
+
+    public String getEndereco() {
+        return endereco;
     }
 
     public int getTipoUsuarioId() {
@@ -79,6 +84,11 @@ public class Usuario extends DataAccessObject {
         }     
     }
 
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+        addChange("endereco", this.endereco);
+    }
+
     public void setTipoUsuarioId(int tipoUsuarioId) {
         this.tipoUsuarioId = tipoUsuarioId;
         addChange("tipo_usuario_id", this.tipoUsuarioId);
@@ -98,7 +108,8 @@ public class Usuario extends DataAccessObject {
         nome = (String) data.get(1);  
         cpf = (String) data.get(2);
         senha = (String) data.get(3);
-        tipoUsuarioId = (int) data.get(4);
+        endereco = (String) data.get(4);
+        tipoUsuarioId = (int) data.get(5);
         return this;
     }
 
@@ -112,6 +123,7 @@ public class Usuario extends DataAccessObject {
         copia.setNome(getNome());
         copia.setCpf(getCpf());
         copia.senha = getSenha();
+        copia.setEndereco(getEndereco());
         copia.setTipoUsuarioId(getTipoUsuarioId());
 
 // marca a cópia como não sendo uma nova entidade

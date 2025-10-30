@@ -5,9 +5,11 @@
 <html>
     <head>
         <meta htus-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Usuário</title>
+        <title>Usuários</title>
     </head>
     <body>
+        
+        <%@include file="/home/app/modulos.jsp" %>
         
         <% ArrayList<Usuario> dados = new Usuario().getAllTableEntities(); %>
         
@@ -19,6 +21,7 @@
                 <th>ID</th>
                 <th>Nome</th>
                 <th>CPF</th>
+                <th>Endereço</th>
                 <th>Tipo Usuário</th>
                 <th></th>
                 <th></th>
@@ -28,7 +31,8 @@
             <tr>
                 <td><%= us.getId() %></td>
                 <td><%= us.getNome() %></td>
-                <td><%= us.getCpf() %></td>
+                <td><%= us.getCpf() != null ? us.getCpf() : "" %></td>
+                <td><%= us.getEndereco() != null ? us.getEndereco() : "" %></td>
                 <td><%= us.getTipoUsuarioId() %></td>
                 
                 <td><a href="<%= request.getContextPath()  %>/home/app/usuarios_form.jsp?action=update&id=<%= us.getId()%>" >Alterar</a></td>

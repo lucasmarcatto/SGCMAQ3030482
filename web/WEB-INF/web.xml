@@ -9,30 +9,50 @@
         <session-timeout>2800</session-timeout>
     </session-config>
     
+    <listener>
+        <listener-class>controller.ContextListener</listener-class>
+    </listener>
+    
     <filter>
         <filter-name>AutenticadorApp</filter-name>
         <filter-class>controller.AutenticadorApp</filter-class>
     </filter>
+    
     <filter-mapping>
         <filter-name>AutenticadorApp</filter-name>
         <url-pattern>/home/app/*</url-pattern>
     </filter-mapping>
+    
+<!--    <filter>
+        <filter-name>AutenticadorAdm</filter-name>
+        <filter-class>controller.AutenticadorAdm</filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>AutenticadorAdm</filter-name>
+        <url-pattern>/home/app/adm/*</url-pattern>
+    </filter-mapping>-->
+    
     <servlet>
         <servlet-name>GetPost</servlet-name>
         <servlet-class>aulas.servlet.getpost.GetPost</servlet-class>
     </servlet>
+    
     <servlet>
         <servlet-name>FrontController</servlet-name>
         <servlet-class>controller.FrontController</servlet-class>
     </servlet>
+    
     <servlet>
         <servlet-name>FrontControler</servlet-name>
         <servlet-class>controller.FrontController</servlet-class>
     </servlet>
+    
     <servlet-mapping>
         <servlet-name>GetPost</servlet-name>
         <url-pattern>/aulas/servlet/getpost</url-pattern>
     </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>FrontControler</servlet-name>
         <url-pattern>/home</url-pattern>

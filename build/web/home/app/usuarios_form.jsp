@@ -7,6 +7,9 @@
         <title>Usuário</title>
     </head>
     <body>
+        
+        <%@include file="/home/app/modulos.jsp" %>
+        
         <% 
             Usuario us = null;
             
@@ -26,7 +29,7 @@
             }            
 
         %>
-        <h1>Tipo Usuário</h1>
+        <h1>Criar Usuário</h1>
         
         <form action="<%= request.getContextPath()  %>/home?action=<%= action %>&task=usuarios" method="post">
             
@@ -41,6 +44,13 @@
             
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name ="senha" value="<%= ( ( us != null ) ) ? us.getSenha() : "" %>" required><br/>
+            
+            <label for="cep">CEP:</label>
+            <input type="text" id="cep" name ="cep" pattern="\d{5}\-\d{3}\" title="DDDDD-DDD" >
+            <input type="button" name="buscarEndereco" value="Buscar Endereço"> <br/>
+            
+            <label for="endereco">Endereço:</label>
+            <textarea id="endereco" name ="endereco" rows="4" cols="50"><%= ( ( us != null ) && ( us.getEndereco()!= null ) ) ? us.getEndereco() : "" %></textarea><br/>
             
             <label for="tipo_usuario_id">Tipo Usuário ID:</label>
             <input type="text" id="tipo_usuario_id" name ="tipo_usuario_id" pattern="\d+" title="apenas dígitos" value="<%= ( ( us != null ) ) ? us.getTipoUsuarioId() : "" %>" required><br/>
