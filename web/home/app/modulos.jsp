@@ -17,8 +17,8 @@
         if( tipoUsuarioLogado.getModuloAdministrativo().equals("S") ) {
     %>
     
-    <li> <a href="<%= request.getContextPath()%>/home/app/tipousuario.jsp">Tipo Usuario</a> </li>
-    <li> <a href="<%= request.getContextPath()%>/home/app/usuarios.jsp">Usuarios</a> </li>
+    <li> <a href="<%= request.getContextPath()%>/home/app/adm/tipousuario.jsp">Tipo Usuario</a> </li>
+    <li> <a href="<%= request.getContextPath()%>/home/app/adm/usuarios.jsp">Usuarios</a> </li>
     
     <%
         }

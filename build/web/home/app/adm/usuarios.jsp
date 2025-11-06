@@ -35,7 +35,7 @@
                 <td><%= us.getEndereco() != null ? us.getEndereco() : "" %></td>
                 <td><%= us.getTipoUsuarioId() %></td>
                 
-                <td><a href="<%= request.getContextPath()  %>/home/app/usuarios_form.jsp?action=update&id=<%= us.getId()%>" >Alterar</a></td>
+                <td><a href="<%= request.getContextPath()  %>/home/app/adm/usuarios_form.jsp?action=update&id=<%= us.getId()%>" >Alterar</a></td>
                 
                 <td><a href="<%= request.getContextPath() %>/home?action=delete&id=<%= us.getId()%>&task=usuarios" onclick="return confirm('Deseja realmente excluir Usuário <%= us.getId()%> (<%= us.getNome() %>) ?')">Excluir</a></td>
             </tr>
@@ -43,6 +43,6 @@
             
         </table>
         
-            <a href="<%= request.getContextPath()  %>/home/app/usuarios_form.jsp?action=create" >Adicionar</a>
+            <a href="<%= request.getContextPath()  %>/home/app/adm/usuarios_form.jsp?action=create" >Adicionar</a>
     </body>
 </html>

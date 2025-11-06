@@ -86,7 +86,7 @@ public class FrontController extends HttpServlet {
             tp.delete();
         }
         
-        response.sendRedirect( request.getContextPath() + "/home/app/tipousuario.jsp");
+        response.sendRedirect( request.getContextPath() + "/home/app/adm/tipousuario.jsp");
         
     }
     
@@ -105,7 +105,7 @@ public class FrontController extends HttpServlet {
             
         }
         
-        response.sendRedirect( request.getContextPath() + "/home/app/usuarios.jsp");
+        response.sendRedirect( request.getContextPath() + "/home/app/adm/usuarios.jsp");
         
     }
     
@@ -146,7 +146,7 @@ public class FrontController extends HttpServlet {
 
         tp.save();
         
-        response.sendRedirect( request.getContextPath() + "/home/app/tipousuario.jsp");
+        response.sendRedirect( request.getContextPath() + "/home/app/adm/tipousuario.jsp");
         
     }
     
@@ -180,7 +180,7 @@ public class FrontController extends HttpServlet {
 
         us.save();
         
-        response.sendRedirect( request.getContextPath() + "/home/app/usuarios.jsp");
+        response.sendRedirect( request.getContextPath() + "/home/app/adm/usuarios.jsp");
         
     }  
         
